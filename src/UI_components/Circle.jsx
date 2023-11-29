@@ -1,5 +1,5 @@
 function Circle() {
-  return <div className="circle">circle</div>;
+  return <div className="circle"></div>;
 }
 
 export default Circle;

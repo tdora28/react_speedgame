@@ -30,13 +30,18 @@ function App() {
     setGameOver(!gameOver);
   };
 
+  const closeHandler = () => {
+    setGameOver(!gameOver);
+    setGameLaunch(!gameLaunch);
+  };
+
   return (
-    <>
+    <main>
       <h1>Speedy Donuts</h1>
       {gameLaunch && <NewGame onclick={gameSetHandler} />}
       {gameOn && <Game score={score} circles={circles} stopHandler={stopHandler} />}
-      {gameOver && <GameOver />}
-    </>
+      {gameOver && <GameOver player={player} score={score} closeHandler={closeHandler} />}
+    </main>
   );
 }
 

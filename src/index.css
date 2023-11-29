@@ -1,10 +1,232 @@
+/* 
+RESOURCES
+
+Donut image:
+https://pixabay.com/vectors/donut-donuts-bread-confectionery-1139832/
+
+Music:
+Music by 29811401 from Pixabay
+Music by <a href="https://pixabay.com/users/29811401-29811401/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=120336">29811401</a> from <a href="https://pixabay.com/music//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=120336">Pixabay</a>
+
+Sound effects:
+1. Clicking: Sound Effect by irinairinafomicheva from Pixabay
+Sound Effect by <a href="https://pixabay.com/users/irinairinafomicheva-25140203/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=13692">irinairinafomicheva</a> from <a href="https://pixabay.com/sound-effects//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=13692">Pixabay</a>
+2. Success: Sound Effect from Pixabay
+Sound Effect from <a href="https://pixabay.com/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=6297">Pixabay</a>
+
+*/
+
+:root {
+  --font-base: "Poppins", sans-serif;
+  --font-display: "Berkshire Swash", cursive;
+
+  --clr-pink: #fac5c0;
+  --clr-turqoise: #c9eae6;
+  --clr-font: #333;
+  --clr-shadow: #8e2929;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: linear-gradient(157deg, var(--clr-pink) 0%, var(--clr-pink) 50%, var(--clr-turqoise) 50%, var(--clr-turqoise) 100%);
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  font-family: var(--font-base);
+  color: var(--clr-font);
+}
+
+h1 {
+  font-family: var(--font-display);
+  font-size: 5rem;
+  color: var(--clr-shadow);
+  text-align: center;
+  text-shadow: 2px 2px #fff;
+}
+
+button {
+  border: none;
+  background: none;
+  font-family: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+
+input {
+  padding: 0.5rem;
+  font-family: inherit;
+}
+
+.button {
+  padding: 0.5rem 1rem;
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 1px 2px 0 var(--clr-shadow);
+  transition: background 0.2s ease-in;
+}
+
+.button:hover {
+  background: var(--clr-pink);
+}
+
+.button:active {
+  transform: translateY(2px);
+  box-shadow: 1px 2px 0 transparent;
+}
+
+.button.hidden {
+  display: none;
+}
+
+/* Layouts */
+
+main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  row-gap: 1.5rem;
+  min-height: calc(100vh - 3rem);
+}
+
+.layout-newgame,
+.layout-game {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 0 0.5rem;
+}
+.layout-newgame h2 {
+  font-size: 1rem;
+  text-align: center;
+}
+.layout-newgame input {
+  width: 300px;
+  max-width: 95%;
+  text-align: center;
+}
+.layout-buttons {
+  display: flex;
+  gap: 1rem;
+}
+.layout-game__score {
+  font-size: 2rem;
+}
+
+/* Circles */
+
+.circles {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2rem;
+  padding: 2rem;
+  border-radius: 15px;
+  box-shadow: 1px 1px 2px grey;
+
+  /* From css-pattern.com */
+  --s: 20px; /* size of the lines */
+  --g: 15px; /* gap between lines */
+
+  --c1: #ffd2d2;
+  --c2: #fee5e5;
+
+  background: conic-gradient(at var(--s) calc(100% - var(--s)), #0000 270deg, var(--c1) 0) calc(var(--s) + var(--g)) 0, linear-gradient(var(--c2) var(--s), #0000 0) 0 var(--g), conic-gradient(at var(--s) calc(100% - var(--s)), #0000 90deg, var(--c2) 0 180deg, var(--c1) 0), white;
+  background-size: calc(2 * (var(--s) + var(--g))) calc(2 * (var(--s) + var(--g)));
+}
+
 .circle {
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100px;
-  height: 100px;
+  width: 150px;
+  height: 150px;
+  background-color: #fff;
+  border: 1px solid lightgrey;
   border-radius: 50%;
-  background: tomato;
-  color: white;
+  box-shadow: 2px 2px 0 var(--clr-shadow);
+  pointer-events: none;
+}
+.circle::after {
+  content: "";
+  position: absolute;
+  width: 80%;
+  height: 80%;
+  border-radius: 50%;
+  box-shadow: inset 0 0 3px grey;
+}
+
+.circle.active {
+  background-image: url("./assets/donut.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+/* Modal */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.8);
+}
+
+.modal {
+  position: relative;
+  width: 95%;
+  max-width: 500px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 3.5rem 3rem 3rem;
+  background: #fff;
+  border-radius: 15px;
+  text-align: center;
+}
+.modal h2 {
+  margin-bottom: 1rem;
+  font-size: 2rem;
+}
+.modal h3 {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+}
+.modal__score {
+  margin-top: 1rem;
+  font-size: 1.5rem;
+}
+.overlay button {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: var(--clr-pink);
+}
+
+/* Footer */
+footer {
+  height: 3rem;
+  text-align: center;
+}
+
+@media screen and (max-width: 800px) {
+  h1 {
+    font-size: 3rem;
+  }
+
+  .circle {
+    width: 100px;
+    height: 100px;
+  }
 }
