@@ -16,6 +16,8 @@ Sound Effect from <a href="https://pixabay.com/?utm_source=link-attribution&utm_
 
 */
 
+/* Basic styles */
+
 @import url("https://fonts.googleapis.com/css2?family=Berkshire+Swash&family=Poppins&display=swap");
 
 :root {
@@ -42,14 +44,6 @@ body {
   color: var(--clr-font);
 }
 
-h1 {
-  font-family: var(--font-display);
-  font-size: 5rem;
-  color: var(--clr-shadow);
-  text-align: center;
-  text-shadow: 2px 2px #fff;
-}
-
 button {
   border: none;
   background: none;
@@ -57,12 +51,6 @@ button {
   color: inherit;
   cursor: pointer;
 }
-
-input {
-  padding: 0.5rem;
-  font-family: inherit;
-}
-
 .button {
   padding: 0.5rem 1rem;
   background: #fff;
@@ -70,21 +58,20 @@ input {
   box-shadow: 1px 2px 0 var(--clr-shadow);
   transition: background 0.2s ease-in;
 }
-
 .button:hover {
   background: var(--clr-pink);
 }
-
 .button:active {
   transform: translateY(2px);
   box-shadow: 1px 2px 0 transparent;
 }
 
-.button.hidden {
-  display: none;
+input {
+  padding: 0.5rem;
+  font-family: inherit;
 }
 
-/* Layouts */
+/* Main */
 
 main {
   display: flex;
@@ -94,6 +81,16 @@ main {
   row-gap: 1.5rem;
   min-height: calc(100vh - 3rem);
 }
+
+.main-title {
+  font-family: var(--font-display);
+  font-size: 3rem;
+  color: var(--clr-shadow);
+  text-align: center;
+  text-shadow: 2px 2px #fff;
+}
+
+/* NewGame and Game */
 
 .layout-newgame,
 .layout-game {
@@ -153,7 +150,7 @@ main {
   border: 1px solid lightgrey;
   border-radius: 50%;
   box-shadow: 2px 2px 0 var(--clr-shadow);
-  pointer-events: none;
+  cursor: pointer;
 }
 .circle::after {
   content: "";
@@ -172,6 +169,7 @@ main {
 }
 
 /* Modal */
+
 .overlay {
   position: fixed;
   top: 0;

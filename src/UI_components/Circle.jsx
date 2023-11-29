@@ -1,5 +1,9 @@
-function Circle() {
-  return <div className="circle"></div>;
+function Circle({ id, clickHandler }) {
+  return (
+    <div className="circle" onClick={() => clickHandler(id)}>
+      <p>{id}</p>
+    </div>
+  );
 }
 
 export default Circle;

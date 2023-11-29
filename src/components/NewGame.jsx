@@ -9,8 +9,8 @@ function NewGame({ onclick }) {
 
   return (
     <div className="layout-newgame">
-      <h2>Start a game by choosing difficulty and entering your name</h2>
-      <input type="text" onChange={inputHandler} />
+      <h2>Start a game by entering your name and choosing difficulty</h2>
+      <input type="text" onChange={inputHandler} placeholder="Enter your name..." />
       <div className="layout-buttons">
         <button className="button" onClick={() => onclick("easy", name)}>
           Easy

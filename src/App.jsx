@@ -35,11 +35,15 @@ function App() {
     setGameLaunch(!gameLaunch);
   };
 
+  const clickHandler = (id) => {
+    console.log("circle was clicked: ", id);
+  };
+
   return (
     <main>
-      <h1>Speedy Donuts</h1>
+      <h1 className="main-title">Speedy Donuts</h1>
       {gameLaunch && <NewGame onclick={gameSetHandler} />}
-      {gameOn && <Game score={score} circles={circles} stopHandler={stopHandler} />}
+      {gameOn && <Game score={score} circles={circles} stopHandler={stopHandler} clickHandler={clickHandler} />}
       {gameOver && <GameOver player={player} score={score} closeHandler={closeHandler} />}
     </main>
   );
