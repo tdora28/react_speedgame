@@ -4,6 +4,10 @@ import NewGame from "./components/NewGame.jsx";
 import Game from "./components/Game.jsx";
 import GameOver from "./components/GameOver.jsx";
 
+const getRndInteger = (min, max) => {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+};
+
 function App() {
   const [player, setPlayer] = useState();
   const [circles, setCircles] = useState([]);
@@ -11,6 +15,10 @@ function App() {
   const [gameLaunch, setGameLaunch] = useState(true);
   const [gameOn, setGameOn] = useState(false);
   const [gameOver, setGameOver] = useState(false);
+  const [current, setCurrent] = useState(0);
+
+  let timer;
+  let pace = 1000;
 
   const gameSetHandler = (level, name) => {
     const levelIndex = levels.findIndex((el) => el.name === level);
@@ -23,20 +31,33 @@ function App() {
     });
     setGameLaunch(!gameLaunch);
     setGameOn(!gameOn);
+    randomNum();
   };
 
   const stopHandler = () => {
     setGameOn(!gameOn);
     setGameOver(!gameOver);
+    clearTimeout(timer);
   };
 
   const closeHandler = () => {
     setGameOver(!gameOver);
     setGameLaunch(!gameLaunch);
+    setScore(0);
   };
 
   const clickHandler = (id) => {
     console.log("circle was clicked: ", id);
+    setScore(score + 10);
+  };
+
+  const randomNum = () => {
+    let nextActive;
+    do {
+      nextActive = getRndInteger(0, circles.length);
+    } while (nextActive === current);
+    setCurrent(nextActive);
+    timer = setTimeout(randomNum, pace);
   };
 
   return (
