@@ -16,6 +16,8 @@ Sound Effect from <a href="https://pixabay.com/?utm_source=link-attribution&utm_
 
 */
 
+@import url("https://fonts.googleapis.com/css2?family=Berkshire+Swash&family=Poppins&display=swap");
+
 :root {
   --font-base: "Poppins", sans-serif;
   --font-display: "Berkshire Swash", cursive;
