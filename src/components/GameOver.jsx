@@ -1,14 +1,19 @@
 function GameOver({ player, score, messages, closeHandler }) {
+  const pickMessage = (score, messages) => {
+    const correctMessage = messages.find((el) => score >= el.scoreBottom);
+    console.log(correctMessage.message);
+    return correctMessage.message;
+  };
   return (
     <div className="overlay">
       <div className="modal">
-        <h2>Game Over :(</h2>
+        <h2>Game Over</h2>
         <h3>{player.name}</h3>
         <p>Level: {player.level}</p>
         <p className="modal__score">
           Total score: <span id="totalScore">{score}</span>
         </p>
-        <p>{messages[0].message}</p>
+        <p>{pickMessage(score, messages)}</p>
         <button className="button" onClick={closeHandler} id="closeModalButton">
           Close
         </button>
