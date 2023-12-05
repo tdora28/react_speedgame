@@ -1,11 +1,11 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { levels } from "./levels.js";
 import NewGame from "./components/NewGame.jsx";
 import Game from "./components/Game.jsx";
 import GameOver from "./components/GameOver.jsx";
 
-const getRndInteger = (min, max) => {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
+const getRndInt = (min, max) => {
+  return Math.floor(Math.random() * (max - min) + 1) + min;
 };
 
 function App() {
@@ -17,27 +17,33 @@ function App() {
   const [gameOver, setGameOver] = useState(false);
   const [current, setCurrent] = useState(0);
 
-  let timer;
+  const timeoutIdRef = useRef(null);
+
   let pace = 1000;
+  let levelsAmount;
 
   const gameSetHandler = (level, name) => {
-    const levelIndex = levels.findIndex((el) => el.name === level);
-    const levelAmount = levels[levelIndex].amount;
-    const circlesArray = Array.from({ length: levelAmount }, (x, i) => i);
+    // Find the amount of circles and add to global var:
+    const { amount } = levels.find((el) => el.name === level);
+    levelsAmount = amount;
+    // Create a new array depending on the amount of circles
+    // eg. length = 3 => [0, 1, 2]
+    const circlesArray = Array.from({ length: amount }, (_, i) => i);
     setCircles(circlesArray);
     setPlayer({
       level: level,
       name: name,
     });
-    setGameLaunch(!gameLaunch);
+    setGameLaunch((prevLaunch) => !prevLaunch);
     setGameOn(!gameOn);
-    randomNum();
+    randomNumb();
   };
 
   const stopHandler = () => {
     setGameOn(!gameOn);
     setGameOver(!gameOver);
-    clearTimeout(timer);
+    clearTimeout(timeoutIdRef.current);
+    timeoutIdRef.current = null;
   };
 
   const closeHandler = () => {
@@ -51,13 +57,14 @@ function App() {
     setScore(score + 10);
   };
 
-  const randomNum = () => {
+  const randomNumb = () => {
     let nextActive;
     do {
-      nextActive = getRndInteger(0, circles.length);
+      nextActive = getRndInt(0, levelsAmount);
     } while (nextActive === current);
     setCurrent(nextActive);
-    timer = setTimeout(randomNum, pace);
+    timeoutIdRef.current = setTimeout(randomNumb, pace);
+    // console.log(nextActive);
   };
 
   return (
