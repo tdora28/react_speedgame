@@ -5,7 +5,7 @@ import Game from "./components/Game.jsx";
 import GameOver from "./components/GameOver.jsx";
 
 const getRndInt = (min, max) => {
-  return Math.floor(Math.random() * (max - min) + 1) + min;
+  return Math.floor(Math.random() * (max - min)) + min;
 };
 
 function App() {
@@ -63,15 +63,15 @@ function App() {
       nextActive = getRndInt(0, levelsAmount);
     } while (nextActive === current);
     setCurrent(nextActive);
+    console.log(nextActive);
     timeoutIdRef.current = setTimeout(randomNumb, pace);
-    // console.log(nextActive);
   };
 
   return (
     <main>
       <h1 className="main-title">Speedy Donuts</h1>
       {gameLaunch && <NewGame onclick={gameSetHandler} />}
-      {gameOn && <Game score={score} circles={circles} stopHandler={stopHandler} clickHandler={clickHandler} />}
+      {gameOn && <Game score={score} circles={circles} current={current} stopHandler={stopHandler} clickHandler={clickHandler} />}
       {gameOver && <GameOver player={player} score={score} closeHandler={closeHandler} />}
     </main>
   );
