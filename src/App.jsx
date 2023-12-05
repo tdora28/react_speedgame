@@ -1,5 +1,6 @@
 import { useState, useRef } from "react";
 import { levels } from "./levels.js";
+import { messages } from "./messages.js";
 import NewGame from "./components/NewGame.jsx";
 import Game from "./components/Game.jsx";
 import GameOver from "./components/GameOver.jsx";
@@ -18,6 +19,8 @@ function App() {
   const [current, setCurrent] = useState(0);
 
   const timeoutIdRef = useRef(null);
+  const rounds = useRef(0);
+  const currentInst = useRef(0);
 
   let pace = 1000;
   let levelsAmount;
@@ -40,8 +43,9 @@ function App() {
   };
 
   const stopHandler = () => {
-    setGameOn(!gameOn);
-    setGameOver(!gameOver);
+    setGameOn((prevGameOn) => !prevGameOn);
+    setGameOver((prevGameOver) => !prevGameOver);
+    rounds.current = 0;
     clearTimeout(timeoutIdRef.current);
     timeoutIdRef.current = null;
   };
@@ -53,18 +57,28 @@ function App() {
   };
 
   const clickHandler = (id) => {
-    console.log("circle was clicked: ", id);
+    if (current !== id) {
+      stopHandler();
+      return;
+    }
     setScore(score + 10);
+    rounds.current--;
   };
 
   const randomNumb = () => {
+    if (rounds.current >= 3) {
+      stopHandler();
+      return;
+    }
     let nextActive;
     do {
       nextActive = getRndInt(0, levelsAmount);
-    } while (nextActive === current);
+    } while (nextActive === currentInst.current);
     setCurrent(nextActive);
-    console.log(nextActive);
+    currentInst.current = nextActive;
+    rounds.current++;
     timeoutIdRef.current = setTimeout(randomNumb, pace);
+    pace *= 0.95;
   };
 
   return (
@@ -72,7 +86,7 @@ function App() {
       <h1 className="main-title">Speedy Donuts</h1>
       {gameLaunch && <NewGame onclick={gameSetHandler} />}
       {gameOn && <Game score={score} circles={circles} current={current} stopHandler={stopHandler} clickHandler={clickHandler} />}
-      {gameOver && <GameOver player={player} score={score} closeHandler={closeHandler} />}
+      {gameOver && <GameOver player={player} score={score} messages={messages} closeHandler={closeHandler} />}
     </main>
   );
 }

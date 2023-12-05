@@ -1,4 +1,4 @@
-function GameOver({ player, score, closeHandler }) {
+function GameOver({ player, score, messages, closeHandler }) {
   return (
     <div className="overlay">
       <div className="modal">
@@ -8,6 +8,7 @@ function GameOver({ player, score, closeHandler }) {
         <p className="modal__score">
           Total score: <span id="totalScore">{score}</span>
         </p>
+        <p>{messages[0].message}</p>
         <button className="button" onClick={closeHandler} id="closeModalButton">
           Close
         </button>
