@@ -1,7 +1,6 @@
 function GameOver({ player, score, messages, closeHandler }) {
   const pickMessage = (score, messages) => {
     const correctMessage = messages.find((el) => score >= el.scoreBottom);
-    console.log(correctMessage.message);
     return correctMessage.message;
   };
   return (

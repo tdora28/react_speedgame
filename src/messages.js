@@ -1,7 +1,7 @@
 export const messages = [
   {
     scoreBottom: 100,
-    message: "Grandma would be proud!",
+    message: "Great! Grandma would be proud!",
   },
   {
     scoreBottom: 50,
