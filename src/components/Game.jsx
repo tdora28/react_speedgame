@@ -1,6 +1,7 @@
-import Circle from "../UI_components/Circle.jsx";
+import Circle from '../UI_components/Circle.jsx';
 
-function Game({ score, circles, current, stopHandler, clickHandler }) {
+function Game({ score, circles, current, stopHandler, clickHandler, musicHandler }) {
+  musicHandler('play', 'bg');
   return (
     <div className="layout-game">
       <p className="layout-game__score">Score: {score}</p>

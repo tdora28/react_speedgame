@@ -1,9 +1,12 @@
-import { useState, useRef } from "react";
-import { levels } from "./levels.js";
-import { messages } from "./messages.js";
-import NewGame from "./components/NewGame.jsx";
-import Game from "./components/Game.jsx";
-import GameOver from "./components/GameOver.jsx";
+import { useState, useRef } from 'react';
+import { levels } from './levels.js';
+import { messages } from './messages.js';
+import NewGame from './components/NewGame.jsx';
+import Game from './components/Game.jsx';
+import GameOver from './components/GameOver.jsx';
+import playingInColor from './assets/audio/playing-in-color.mp3';
+import successSound from './assets/audio/success.mp3';
+import clickSound from './assets/audio/click.mp3';
 
 const getRndInt = (min, max) => {
   return Math.floor(Math.random() * (max - min)) + min;
@@ -21,6 +24,10 @@ function App() {
   const timeoutIdRef = useRef(null);
   const rounds = useRef(0);
   const currentInst = useRef(0);
+
+  const bgMusic = useRef(new Audio(playingInColor));
+  const successAudio = useRef(new Audio(successSound));
+  const clickAudio = useRef(new Audio(clickSound));
 
   let pace = 1000;
   let levelsAmount;
@@ -61,7 +68,12 @@ function App() {
       stopHandler();
       return;
     }
-    setScore(score + 10);
+    if (clickAudio.current.paused) {
+      clickAudio.current.play();
+    } else {
+      clickAudio.current.currentTime = 0;
+    }
+    setScore(score + 1);
     rounds.current--;
   };
 
@@ -81,12 +93,32 @@ function App() {
     pace *= 0.95;
   };
 
+  const musicHandler = (action, audio) => {
+    let selectedAudio;
+    switch (audio) {
+      case 'bg':
+        selectedAudio = bgMusic.current;
+        break;
+      case 'success':
+        selectedAudio = successAudio.current;
+        break;
+      default:
+        break;
+    }
+    if (action === 'play') {
+      selectedAudio.play();
+    } else if (action === 'pause') {
+      selectedAudio.pause();
+      selectedAudio.currentTime = 0;
+    }
+  };
+
   return (
     <main>
       <h1 className="main-title">Speedy Donuts</h1>
-      {gameLaunch && <NewGame onclick={gameSetHandler} />}
-      {gameOn && <Game score={score} circles={circles} current={current} stopHandler={stopHandler} clickHandler={clickHandler} />}
-      {gameOver && <GameOver player={player} score={score} messages={messages} closeHandler={closeHandler} />}
+      {gameLaunch && <NewGame onclick={gameSetHandler} musicHandler={musicHandler} />}
+      {gameOn && <Game score={score} circles={circles} current={current} stopHandler={stopHandler} clickHandler={clickHandler} musicHandler={musicHandler} />}
+      {gameOver && <GameOver player={player} score={score} messages={messages} closeHandler={closeHandler} musicHandler={musicHandler} />}
     </main>
   );
 }
