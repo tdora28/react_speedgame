@@ -1,5 +1,5 @@
 function Circle({ id, current, clickHandler }) {
-  return <div className={`circle ${current ? "active" : ""}`} onClick={() => clickHandler(id)} role="button"></div>;
+  return <button className={`circle ${current ? "active" : ""}`} onClick={() => clickHandler(id)}></button>;
 }
 
 export default Circle;
