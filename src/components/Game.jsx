@@ -1,13 +1,13 @@
-import Circle from '../UI_components/Circle.jsx';
+import Circle from "../UI_components/Circle.jsx";
 
 function Game({ score, circles, current, stopHandler, clickHandler, musicHandler }) {
-  musicHandler('play', 'bg');
+  musicHandler("play", "bg");
   return (
     <div className="layout-game">
       <p className="layout-game__score">Score: {score}</p>
       <div className="circles">
         {circles.map((el, i) => (
-          <Circle key={i} id={i} current={current === i} clickHandler={clickHandler} />
+          <Circle key={`${i}${Math.random()}`} id={i} current={current === i} clickHandler={clickHandler} />
         ))}
       </div>
       <button className="button" onClick={stopHandler}>
