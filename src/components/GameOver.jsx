@@ -1,11 +1,12 @@
 function GameOver({ player, score, messages, closeHandler, musicHandler }) {
-  const pickMessage = (score, messages) => {
-    const correctMessage = messages.find((el) => score >= el.scoreBottom);
+  const pickMessage = (score, level, messages) => {
+    const correctLevel = messages.find((el) => el.level === level);
+    const correctMessage = correctLevel.evaluation.find((el) => score >= el.scoreBottom);
     return correctMessage.message;
   };
 
-  musicHandler('pause', 'bg');
-  musicHandler('play', 'success');
+  musicHandler("pause", "bg");
+  musicHandler("play", "success");
 
   return (
     <div className="overlay">
@@ -16,7 +17,7 @@ function GameOver({ player, score, messages, closeHandler, musicHandler }) {
         <p className="modal__score">
           Total score: <span id="totalScore">{score}</span>
         </p>
-        <p>{pickMessage(score, messages)}</p>
+        <p>{pickMessage(score, player.level, messages)}</p>
         <button className="button" onClick={closeHandler} id="closeModalButton">
           Close
         </button>
